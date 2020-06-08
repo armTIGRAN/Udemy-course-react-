@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
-import './App.css';
-// import styled from 'styled-components'
+import "./App.css";
+import styled from 'styled-components'
+import TextField from '@material-ui/core/TextField';
+
+// import Button from '@material-ui/core/Button';
+// import styled from '@material-ui/styles'
 // import Radium, { StyleRoot } from 'radium';
 
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
-// const StyledButton = styled.button`
-//   background-color: ${props => props.alt ? 'red' : 'green'};
-//   color: white;
-//   font: inherit;
-//   border: 1px solid blue;
-//   padding: 8px;
-//   cursor: pointer;
+const StyledButton = styled.button`
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
 
-//   &:hover {
-//     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
-//     color: black
-//   }
-// `
+  &:hover {
+    background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black
+  }
+`
 
 const App = props => {
   const [personsState, setPersonsState] = useState([
@@ -53,22 +58,24 @@ const App = props => {
  
   const togglePersonsHandler = () => changeShowPersons(!showPersons)
   
-  // let persons = (<StyledButton onClick={togglePersonsHandler}> Show </StyledButton>)
-  let persons = (<button className='button' onClick={togglePersonsHandler}> Show </button>)
-
+  let persons = (<StyledButton onClick={togglePersonsHandler}> Show </StyledButton>)
+  // let persons = (<button className='button' onClick={togglePersonsHandler}> Show </button>)
   if(showPersons){
     persons = (
       <div>
-      {/* <StyledButton alt={showPersons} onClick={togglePersonsHandler}> Hide </StyledButton> */}
-      <button className='button' alt={showPersons} onClick={togglePersonsHandler}> Hide </button>
+      <StyledButton alt={showPersons} onClick={togglePersonsHandler}> Hide </StyledButton>
+      {/* <button className='button' alt={showPersons} onClick={togglePersonsHandler}> Hide </button> */}
       {personsState.map((person, index) => {
-        return <Person 
-          name= {person.name}
-          age= {person.age}
-          key = {person.id}
-          changed = {(event) => nameChangedHandler(event, person.id)}
-          click= {() => deletePersonHandler(index)}
-        />
+        return (
+          <ErrorBoundary>
+            <Person 
+            name= {person.name}
+            age= {person.age}
+            key = {person.id}
+            changed = {(event) => nameChangedHandler(event, person.id)}
+            click= {() => deletePersonHandler(index)} />
+          </ErrorBoundary>
+        )
       })}
       </div>
     )
@@ -78,11 +85,13 @@ const App = props => {
   let classes = []
   if(personsState.length <= 2) classes.push('red') //classes = ['red']
   if(personsState.length <= 1) classes.push('bold') //classes = ['red', 'bold']
-   
+ 
   return (
     <div className="App">
       <h1>Hi, I'm a React App</h1>
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
       <p className={classes.join(' ')}>This is really working!</p>
+      {/* <p className={styles.red}>test</p> */}
       {persons}
     </div>
   );

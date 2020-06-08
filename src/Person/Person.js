@@ -22,6 +22,9 @@ const person = props => {
             width: '450px'
         }
     }
+
+    // throw new Error('test error')
+
     return (
         <StyleDiv>  
             <p onClick={props.click}> I'm a {props.name} and I am {props.age} years old!</p>
