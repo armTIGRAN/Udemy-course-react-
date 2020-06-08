@@ -1,8 +1,23 @@
-
 import React, { useState } from 'react';
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
+// import styled from 'styled-components'
+// import Radium, { StyleRoot } from 'radium';
+
 import Person from './Person/Person';
+
+// const StyledButton = styled.button`
+//   background-color: ${props => props.alt ? 'red' : 'green'};
+//   color: white;
+//   font: inherit;
+//   border: 1px solid blue;
+//   padding: 8px;
+//   cursor: pointer;
+
+//   &:hover {
+//     background-color: ${props => props.alt ? 'salmon' : 'lightgreen'};
+//     color: black
+//   }
+// `
 
 const App = props => {
   const [personsState, setPersonsState] = useState([
@@ -36,27 +51,16 @@ const App = props => {
     setPersonsState(persons)
 }
  
-  const style = {
-    backgroundColor: 'green',
-    color: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: 'Lightgreen',
-      color: 'black'
-    }
-  }
-
   const togglePersonsHandler = () => changeShowPersons(!showPersons)
   
-  let persons = (<button style = {style} onClick={togglePersonsHandler}> Show </button>)
+  // let persons = (<StyledButton onClick={togglePersonsHandler}> Show </StyledButton>)
+  let persons = (<button className='button' onClick={togglePersonsHandler}> Show </button>)
 
   if(showPersons){
     persons = (
       <div>
-      <button style = {style} onClick={togglePersonsHandler}> Hide </button>
+      {/* <StyledButton alt={showPersons} onClick={togglePersonsHandler}> Hide </StyledButton> */}
+      <button className='button' alt={showPersons} onClick={togglePersonsHandler}> Hide </button>
       {personsState.map((person, index) => {
         return <Person 
           name= {person.name}
@@ -68,12 +72,6 @@ const App = props => {
       })}
       </div>
     )
-
-    style.backgroundColor= 'red'
-    style[':hover'] = {
-      backgroundColor: 'salmon',
-      color: 'black'
-    }
   }
 
   // let classes = ['red', 'bold'].join(' ');
@@ -82,14 +80,13 @@ const App = props => {
   if(personsState.length <= 1) classes.push('bold') //classes = ['red', 'bold']
    
   return (
-    <StyleRoot>
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
-        {persons}
-      </div>
-    </StyleRoot>
+    <div className="App">
+      <h1>Hi, I'm a React App</h1>
+      <p className={classes.join(' ')}>This is really working!</p>
+      {persons}
+    </div>
   );
 };
 
-export default Radium(App);
+// export default Radium(App);
+export default App;
